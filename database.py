@@ -8,7 +8,12 @@ import sqlite3
 import os
 from typing import List, Dict, Optional
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "history_bot.db")
+import tempfile
+
+if os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
+    DB_PATH = os.path.join(tempfile.gettempdir(), "history_bot.db")
+else:
+    DB_PATH = os.path.join(os.path.dirname(__file__), "history_bot.db")
 
 
 def get_connection():
